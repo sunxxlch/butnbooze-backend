@@ -1,0 +1,46 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: userservice
+  config:
+    import: optional:configserver:http://localhost:8071
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/boozeproducts
+  driver:
+    class: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  hibernate:
+    ddl-auto: update
+management:
+  endpoints:
+    web:
+      exposure:
+        enabled: true
+  endpoint:
+    shutdown:
+      access: unrestricted
+  info:
+    env:
+      enabled: true
+
+FrontEndIpAndPort: http://localhost:3000
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceURl.defaultZone: "http://localhost:8070/eureka/"
+info:
+  app:
+    name: "userservice"
+    description: "user service microservice for buynbooze"
+    version: "1.0.0"
+
+

@@ -1,0 +1,48 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: productservice
+  config:
+    import: optional:configserver:http://localhost:8071
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/boozeproducts
+  driver:
+    class: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  hibernate:
+    ddl-auto: update
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 5MB
+management:
+  endpoints:
+    web:
+      exposure:
+        enabled: true
+  endpoint:
+    shutdown:
+      access: unrestricted
+  info:
+    env:
+      enabled: true
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceURl.defaultZone: "http://localhost:8070/eureka/"
+info:
+  app:
+    name: "productsevice"
+    description: "product service microservice for buynbooze"
+    version: "1.0.0"
+

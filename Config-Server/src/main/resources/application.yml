@@ -1,0 +1,36 @@
+server:
+  port: 8071
+spring:
+  application:
+    name: "config-server"
+  profiles:
+    active: git
+  cloud:
+    config:
+      server:
+        git:
+          uri: "https://github.com/sunxxlch/config-buynbooze.git"
+          default-label: main
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
+
+#exposing end points
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+#encyption
+encrypt:
+  key: e351398b2a3c760557670edab9d605fd586b5199e610655508edfe45242df3d3
