@@ -2,6 +2,7 @@ package com.buynbooze.CheckoutService.Services;
 
 import com.buynbooze.CheckoutService.Clients.UserServiceClient;
 import com.buynbooze.CheckoutService.DTO.OrderDTO;
+import com.buynbooze.CheckoutService.DTO.UserOrderDTO;
 import com.buynbooze.CheckoutService.Entities.CheckoutEntity;
 import com.buynbooze.CheckoutService.Exceptions.OrderNotFoundException;
 import com.buynbooze.CheckoutService.Repositories.CheckoutRepo;
@@ -34,12 +35,13 @@ public class CheckoutService implements CheckoutIMPL {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new RuntimeException("Invalid Authorization header");
         }
+        UserOrderDTO userOrderDTO = UserOrderDTO.builder()
+                .token(request.getHeader("Authorization"))
+                .order(ce)
+                .build();
 
         try {
-            userServiceClient.addNewOrders(
-                    Map.of("order_id", ce.getOrder_id()+"",
-                            "token", request.getHeader("Authorization"))
-            );
+            userServiceClient.addNewOrders(userOrderDTO);
         } catch (Exception e) {
             System.out.println("Failed to update user's orders: " + e.getMessage());
             throw new RuntimeException("Failed to assign order to User");

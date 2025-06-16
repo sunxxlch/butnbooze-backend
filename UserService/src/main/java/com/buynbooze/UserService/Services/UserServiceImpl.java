@@ -3,6 +3,7 @@ package com.buynbooze.UserService.Services;
 import com.buynbooze.UserService.DTO.AccountDTO;
 import com.buynbooze.UserService.DTO.createDTO;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserServiceImpl {
@@ -13,5 +14,7 @@ public interface UserServiceImpl {
 
     void resetPassword(Map<String, String> body);
 
-    void updateOrders(Map<String, String> body, String username);
+    void updateOrders(Object userOrderDTO, String username);
+
+    List<Object> getOrders(String username);
 }

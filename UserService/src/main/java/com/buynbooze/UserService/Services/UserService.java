@@ -6,6 +6,7 @@ import com.buynbooze.UserService.Entities.UserEntity;
 import com.buynbooze.UserService.Exceptions.OldPasswordNotMatchExcepion;
 import com.buynbooze.UserService.Exceptions.UserAlreadyExistsException;
 import com.buynbooze.UserService.Repositories.UserRepo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,6 +38,7 @@ public class UserService implements UserServiceImpl {
             userEntity.setMobile(create.getMobile());
             userEntity.setDob(create.getDob());
             userEntity.setCreated_at(LocalDateTime.now());
+            userEntity.setOrders(null);
             userRepo.save(userEntity);
         }else{
             throw new UserAlreadyExistsException("user already exists with username: "+create.getUsername());
@@ -53,7 +55,6 @@ public class UserService implements UserServiceImpl {
                 .mobile(userEntity.getMobile())
                 .dob(userEntity.getDob())
                 .created_at(userEntity.getCreated_at())
-                .orders(userEntity.getOrders())
                 .build();
     }
 
@@ -71,15 +72,23 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
-    public void updateOrders(Map<String, String> body, String username) {
+    public void updateOrders(Object checkoutObj, String username) {
         UserEntity userEntity = userRepo.findById(username).
-                orElseThrow(()-> new UsernameNotFoundException("User not exists for user :"+body.get("username")));
-        List<Integer> lst = new ArrayList<>();
-        if(userEntity.getOrders()!=null){
-            lst.addAll(userEntity.getOrders());
+                orElseThrow(()-> new UsernameNotFoundException("User not exists for user :"+username));
+        System.out.println(checkoutObj);
+        List<Object> currentOrders = userEntity.getOrders();
+        if (currentOrders == null) {
+            currentOrders = new ArrayList<>();
         }
-        lst.add(Integer.parseInt(body.get("order_id")));
-        userEntity.setOrders(lst);
+        currentOrders.add(checkoutObj);
+        userEntity.setOrders(currentOrders);
         userRepo.save(userEntity);
+    }
+
+    @Override
+    public List<Object> getOrders(String username) {
+        UserEntity userEntity = userRepo.findById(username).
+                orElseThrow(()-> new UsernameNotFoundException("User not exists for user :"+username));
+        return userEntity.getOrders();
     }
 }

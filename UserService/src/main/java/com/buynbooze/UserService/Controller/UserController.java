@@ -1,9 +1,6 @@
 package com.buynbooze.UserService.Controller;
 
-import com.buynbooze.UserService.DTO.AccountDTO;
-import com.buynbooze.UserService.DTO.TokenDTO;
-import com.buynbooze.UserService.DTO.UserDTO;
-import com.buynbooze.UserService.DTO.createDTO;
+import com.buynbooze.UserService.DTO.*;
 import com.buynbooze.UserService.Services.JwtService;
 import com.buynbooze.UserService.Services.JwtServiceRefresh;
 import com.buynbooze.UserService.Services.UserServiceImpl;
@@ -16,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -44,8 +42,8 @@ public class UserController {
         );
 
         if(authentication.isAuthenticated()){
-            String access = jwtService.generateToken(userDTO.getUsername(),3 * 60 * 1000);
-            String refresh = jwtServiceRefresh.generateToken(userDTO.getUsername(),180 * 60 * 1000);
+            String access = jwtService.generateToken(userDTO.getUsername(),10 * 60 * 1000);
+            String refresh = jwtServiceRefresh.generateRefreshToken(userDTO.getUsername(),300 * 60 * 1000);
             TokenDTO tokenDTO = TokenDTO.builder()
                     .accessToken(access)
                     .refreshToken(refresh)
@@ -66,9 +64,9 @@ public class UserController {
     }
 
     @GetMapping("/getDetails")
-    public ResponseEntity<AccountDTO> getDetails(@RequestBody Map<String,String> body){
+    public ResponseEntity<AccountDTO> getDetails(@RequestParam String username){
         return ResponseEntity.status(HttpStatus.OK).body(
-                userService.getDetails(body.get("username"))
+                userService.getDetails(username)
         );
     }
 
@@ -84,13 +82,13 @@ public class UserController {
     }
 
     @PutMapping("/addPlacedOrders")
-    public ResponseEntity<String> addnewOrders(@RequestBody Map<String, String> body) {
-        String token = body.get("token");
+    public ResponseEntity<String> addnewOrders(@RequestBody UserOrderDTO userOrderDTO) {
+        String token = userOrderDTO.getToken();
         try {
             String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
             String username = jwtService.extractUsername(jwt);
 
-            userService.updateOrders(body, username);
+            userService.updateOrders(userOrderDTO.getOrder(), username);
 
             return ResponseEntity.status(HttpStatus.OK).body("updated new orders Successfully");
         } catch (Exception e) {
@@ -98,5 +96,22 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getOrders")
+    public List<Object> getOrders(@RequestParam String username){
+        return userService.getOrders(username);
+    }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<Object> refreshExpiredToken(@RequestBody Map<String,String> body){
+        String token = body.get("refreshToken");
+        if(token!=null){
+            if (jwtServiceRefresh.validateRefreshToken(token)) {
+                String newAccessToken = jwtService.generateToken(jwtServiceRefresh.RefreshextractUsername(token),10 * 60 * 1000);
+                return ResponseEntity.ok(Map.of("accessToken", newAccessToken));
+            }
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid refresh token");
+        }else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("token is null");
+        }
+    }
 }

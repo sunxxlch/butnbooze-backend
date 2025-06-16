@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.hibernate.type.descriptor.jdbc.JsonJdbcType;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,8 +27,9 @@ public class UserEntity {
     private Long mobile;
     private LocalDate dob;
     private LocalDateTime created_at;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private List<Integer> orders;
+    private List<Object> orders;
 
 }
