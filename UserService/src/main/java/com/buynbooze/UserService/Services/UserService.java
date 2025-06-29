@@ -72,11 +72,11 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
-    public void updateOrders(Object checkoutObj, String username) {
+    public void updateOrders(Long checkoutObj, String username) {
         UserEntity userEntity = userRepo.findById(username).
                 orElseThrow(()-> new UsernameNotFoundException("User not exists for user :"+username));
         System.out.println(checkoutObj);
-        List<Object> currentOrders = userEntity.getOrders();
+        List<Long> currentOrders = userEntity.getOrders();
         if (currentOrders == null) {
             currentOrders = new ArrayList<>();
         }
@@ -86,9 +86,17 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
-    public List<Object> getOrders(String username) {
+    public List<Long> getOrders(String username) {
         UserEntity userEntity = userRepo.findById(username).
                 orElseThrow(()-> new UsernameNotFoundException("User not exists for user :"+username));
         return userEntity.getOrders();
+    }
+
+    @Override
+    public String getEmail(String username) {
+        UserEntity userEntity = userRepo.findById(username).
+                orElseThrow(()-> new UsernameNotFoundException("User not exists for user :"+username));
+        System.out.println("email received");
+        return  userEntity.getEmail();
     }
 }

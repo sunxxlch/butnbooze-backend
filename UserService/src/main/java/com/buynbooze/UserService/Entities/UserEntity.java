@@ -30,6 +30,6 @@ public class UserEntity {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private List<Object> orders;
+    private List<Long> orders;
 
 }

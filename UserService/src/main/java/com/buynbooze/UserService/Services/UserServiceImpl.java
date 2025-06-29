@@ -14,7 +14,9 @@ public interface UserServiceImpl {
 
     void resetPassword(Map<String, String> body);
 
-    void updateOrders(Object userOrderDTO, String username);
+    void updateOrders(Long userOrderDTO, String username);
 
-    List<Object> getOrders(String username);
+    List<Long> getOrders(String username);
+
+    String getEmail(String username);
 }

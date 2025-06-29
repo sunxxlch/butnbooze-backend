@@ -11,6 +11,6 @@ import java.io.Serializable;
 @Getter @Setter
 @Builder
 public class UserOrderDTO implements Serializable {
-    private Object order;
+    private Long order;
     private String token;
 }

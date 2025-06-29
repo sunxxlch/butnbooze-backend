@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @Getter @Setter
 public class OrderDTO implements Serializable {
-    private int order_id;
+    private Long order_id;
     private AddressDTO address;
     private String payment_type;
     private String status;

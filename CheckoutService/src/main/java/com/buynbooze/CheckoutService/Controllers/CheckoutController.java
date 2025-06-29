@@ -22,11 +22,11 @@ public class CheckoutController {
         this.checkoutIMPL = checkoutIMPL;
     }
 
-    @PostMapping("/placeOrder")
-    public ResponseEntity<ResponseDTO> placeOrder(@RequestBody CheckoutEntity checkoutEntity , HttpServletRequest request) {
+    @PostMapping("/placeOrder/{transactionId}")
+    public ResponseEntity<ResponseDTO> placeOrder(@PathVariable Long transactionId,HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseDTO.builder()
-                        .orderId(checkoutIMPL.placeOrder(checkoutEntity,request))
+                        .orderId(checkoutIMPL.placeOrder(transactionId,request))
                         .statusMsg("Order Placed Successfully")
                         .build()
         );
@@ -43,7 +43,7 @@ public class CheckoutController {
     }
 
     @DeleteMapping("/deleteOrder/{orderId}")
-    public ResponseEntity<ResponseDTO> deleteOrder(@PathVariable int orderId){
+    public ResponseEntity<ResponseDTO> deleteOrder(@PathVariable Long orderId){
         checkoutIMPL.deleteOrder(orderId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseDTO.builder()
@@ -54,7 +54,7 @@ public class CheckoutController {
     }
 
     @PutMapping("/updateStatus/{orderId}")
-    public ResponseEntity<Object> updatestatus(@PathVariable int orderId){
+    public ResponseEntity<Object> updatestatus(@PathVariable Long orderId){
         checkoutIMPL.updateStatus(orderId);
         return  ResponseEntity.ok("updated status");
     }

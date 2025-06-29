@@ -1,15 +1,17 @@
 package com.buynbooze.CheckoutService.Services;
 
 import com.buynbooze.CheckoutService.DTO.OrderDTO;
-import com.buynbooze.CheckoutService.Entities.CheckoutEntity;
+import com.buynbooze.CheckoutService.Entities.TransactionEntity;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface CheckoutIMPL {
-    int placeOrder(CheckoutEntity checkoutEntity, HttpServletRequest request);
+    Long placeOrder(Long transactionId, HttpServletRequest request);
 
-    int updateAddress(OrderDTO checkoutEntity);
+    Long updateAddress(OrderDTO checkoutEntity);
 
-    void deleteOrder(int orderId);
+    void deleteOrder(Long orderId);
 
-    void updateStatus(int orderId);
+    void updateStatus(Long orderId);
+
+    Long newTransaction(TransactionEntity checkoutEntity);
 }

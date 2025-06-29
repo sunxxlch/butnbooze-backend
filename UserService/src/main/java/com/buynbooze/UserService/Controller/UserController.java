@@ -70,6 +70,12 @@ public class UserController {
         );
     }
 
+    @GetMapping("/getEmail")
+    public String getEmail(@RequestParam String username){
+        System.out.println("getting email");
+        return userService.getEmail(username);
+    }
+
     @PutMapping("/resetPassword")
     public ResponseEntity<Object> resetPassword(@RequestBody Map<String,String> body){
         userService.resetPassword(body);
@@ -83,11 +89,12 @@ public class UserController {
 
     @PutMapping("/addPlacedOrders")
     public ResponseEntity<String> addnewOrders(@RequestBody UserOrderDTO userOrderDTO) {
+        System.out.println("entered new orders");
         String token = userOrderDTO.getToken();
         try {
             String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
             String username = jwtService.extractUsername(jwt);
-
+            System.out.println(userOrderDTO.getOrder());
             userService.updateOrders(userOrderDTO.getOrder(), username);
 
             return ResponseEntity.status(HttpStatus.OK).body("updated new orders Successfully");
@@ -97,7 +104,7 @@ public class UserController {
     }
 
     @GetMapping("/getOrders")
-    public List<Object> getOrders(@RequestParam String username){
+    public List<Long> getOrders(@RequestParam String username){
         return userService.getOrders(username);
     }
 
@@ -114,4 +121,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("token is null");
         }
     }
+
+
 }

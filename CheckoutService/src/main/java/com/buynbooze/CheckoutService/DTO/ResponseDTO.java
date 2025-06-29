@@ -7,6 +7,6 @@ import lombok.*;
 @Builder
 public class ResponseDTO {
 
-    private int orderId;
+    private Long orderId;
     private String statusMsg;
 }

@@ -13,8 +13,10 @@ public class AddressDTO implements Serializable {
     private String first_name;
     private String last_name;
     private Long mobile;
-    private String address;
+    private String house;
+    private String street;
+    private String area;
     private String city;
-    private String state;
     private int zipcode;
+    private String country;
 }
