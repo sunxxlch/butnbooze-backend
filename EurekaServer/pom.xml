@@ -29,6 +29,10 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<docker.registry>sunxxl</docker.registry>
+		<docker.tag>latest</docker.tag>
+		<jib.to.auth.username></jib.to.auth.username>
+		<jib.to.auth.password></jib.to.auth.password>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -74,7 +78,11 @@
 				<version>3.4.2</version>
 				<configuration>
 					<to>
-						<image>sunxxl/${project.artifactId}:v2</image>
+						<image>${docker.registry}/${project.artifactId}:${docker.tag}</image>
+						<auth>
+							<username>${jib.to.auth.username}</username>
+							<password>${jib.to.auth.password}</password>
+						</auth>
 					</to>
 				</configuration>
 			</plugin>
