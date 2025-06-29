@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.buynbooze</groupId>
-	<artifactId>APICloudGateway</artifactId>
+	<artifactId>apicloudgateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>API-Cloud-Gateway</name>
 	<description>Demo project for Spring Boot</description>

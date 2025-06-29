@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.buynbooze</groupId>
-	<artifactId>Productservice</artifactId>
+	<artifactId>productservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Productservice</name>
 	<description>products service for buy and booze</description>
