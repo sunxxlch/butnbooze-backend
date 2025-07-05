@@ -2,6 +2,7 @@ package com.buynbooze.UserService.Services;
 
 import com.buynbooze.UserService.DTO.AccountDTO;
 import com.buynbooze.UserService.DTO.createDTO;
+import com.buynbooze.UserService.Entities.CheckoutEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -19,4 +20,6 @@ public interface UserServiceImpl {
     List<Long> getOrders(String username);
 
     String getEmail(String username);
+
+    List<CheckoutEntity> getOrdersDetails(String username);
 }

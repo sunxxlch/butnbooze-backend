@@ -1,7 +1,9 @@
 package com.buynbooze.UserService.Services;
 
+import com.buynbooze.UserService.Clients.CheckoutClient;
 import com.buynbooze.UserService.DTO.AccountDTO;
 import com.buynbooze.UserService.DTO.createDTO;
+import com.buynbooze.UserService.Entities.CheckoutEntity;
 import com.buynbooze.UserService.Entities.UserEntity;
 import com.buynbooze.UserService.Exceptions.OldPasswordNotMatchExcepion;
 import com.buynbooze.UserService.Exceptions.UserAlreadyExistsException;
@@ -26,6 +28,9 @@ public class UserService implements UserServiceImpl {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CheckoutClient checkoutClient;
 
     @Override
     public void createUser(createDTO create) {
@@ -98,5 +103,13 @@ public class UserService implements UserServiceImpl {
                 orElseThrow(()-> new UsernameNotFoundException("User not exists for user :"+username));
         System.out.println("email received");
         return  userEntity.getEmail();
+    }
+
+    @Override
+    public List<CheckoutEntity> getOrdersDetails(String username) {
+        UserEntity userEntity = userRepo.findById(username).
+                orElseThrow(()-> new UsernameNotFoundException("User not exists for user :"+username));
+        List<Long> orderIds = userEntity.getOrders();
+        return checkoutClient.getAllOrder(orderIds);
     }
 }

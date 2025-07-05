@@ -59,4 +59,9 @@ public class CheckoutController {
         return  ResponseEntity.ok("updated status");
     }
 
+    @PostMapping("/getOrders")
+    public List<CheckoutEntity> getAllOrders(@RequestBody List<Long> orderIds){
+        return checkoutIMPL.getAllOrderDetails(orderIds);
+    }
+
 }

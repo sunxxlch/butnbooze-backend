@@ -1,6 +1,7 @@
 package com.buynbooze.UserService.Controller;
 
 import com.buynbooze.UserService.DTO.*;
+import com.buynbooze.UserService.Entities.CheckoutEntity;
 import com.buynbooze.UserService.Services.JwtService;
 import com.buynbooze.UserService.Services.JwtServiceRefresh;
 import com.buynbooze.UserService.Services.UserServiceImpl;
@@ -106,6 +107,11 @@ public class UserController {
     @GetMapping("/getOrders")
     public List<Long> getOrders(@RequestParam String username){
         return userService.getOrders(username);
+    }
+
+    @GetMapping("/getOrdersDetails")
+    public List<CheckoutEntity> getOrdersDetails(@RequestParam String username){
+        return userService.getOrdersDetails(username);
     }
 
     @PostMapping("/refresh")

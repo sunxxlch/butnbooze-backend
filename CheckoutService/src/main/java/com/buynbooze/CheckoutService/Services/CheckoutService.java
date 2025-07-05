@@ -10,11 +10,15 @@ import com.buynbooze.CheckoutService.Repositories.CheckoutRepo;
 import com.buynbooze.CheckoutService.Repositories.TransactionRepo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CheckoutService implements CheckoutIMPL {
@@ -95,6 +99,11 @@ public class CheckoutService implements CheckoutIMPL {
         transactionEntity.setUser_email(userServiceClient.getEmail(transactionEntity.getUser_id()));
         TransactionEntity te = trepo.save(transactionEntity);
         return te.getTransaction_id();
+    }
+
+    @Override
+    public List<CheckoutEntity> getAllOrderDetails(List<Long> orderIds) {
+        return crepo.findAllById(orderIds);
     }
 
     public void updateTransaction(TransactionEntity transactionEntity) {
