@@ -16,7 +16,7 @@ pipeline {
     }
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/sunxxlch/butnbooze-backend.git'
+        git branch: 'main', url: 'https://github.com/sunxxlch/buynbooze-backend.git'
       }
     }
 
