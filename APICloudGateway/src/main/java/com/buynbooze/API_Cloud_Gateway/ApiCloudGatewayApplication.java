@@ -19,6 +19,7 @@ public class ApiCloudGatewayApplication {
 
 	@Bean
 	public RouteLocator routeLocator(RouteLocatorBuilder rlb, AuthenticateGatewayFilterFactory aut) {
+		System.out.println("checkoutservice authentication");
 		return rlb
 				.routes()
 				.route(p -> p
