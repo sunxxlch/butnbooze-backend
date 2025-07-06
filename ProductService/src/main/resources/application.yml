@@ -21,10 +21,17 @@ spring:
       enabled: true
       max-file-size: 5MB
       max-request-size: 5MB
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+
 management:
   endpoints:
     web:
       exposure:
+        include: "*"
         enabled: true
   endpoint:
     shutdown:
@@ -34,15 +41,27 @@ management:
       enabled: true
 
 eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
   instance:
     preferIpAddress: true
-  client:
-    fetchRegistry: true
-    registerWithEureka: true
-    serviceURl.defaultZone: "http://localhost:8070/eureka/"
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 10
+
 info:
   app:
     name: "productsevice"
     description: "product service microservice for buynbooze"
     version: "1.0.0"
+
+Spring:
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
 

@@ -15,11 +15,17 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   hibernate:
     ddl-auto: update
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
 
 management:
   endpoints:
     web:
       exposure:
+        include: "*"
         enabled: true
   endpoint:
     shutdown:
@@ -29,14 +35,25 @@ management:
       enabled: true
 
 eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
   instance:
     preferIpAddress: true
-  client:
-    fetchRegistry: true
-    registerWithEureka: true
-    serviceURl.defaultZone: "http://localhost:8070/eureka/"
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 10
 info:
   app:
     name: "checkoutservice"
     description: "checkout service microservice for buynbooze"
     version: "1.0.0"
+
+Spring:
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
